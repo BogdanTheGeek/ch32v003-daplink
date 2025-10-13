@@ -1,0 +1,6 @@
+[submodule "firmware/rv003usb"]
+	path = firmware/rv003usb
+	url = git@github.com:cnlohr/rv003usb.git
+[submodule "firmware/ch32fun"]
+	path = firmware/ch32fun
+	url = git@github.com:cnlohr/ch32fun.git

@@ -19,6 +19,9 @@ EventRecorderStub.scvd
 *.o
 *.ko
 *.obj
+*.hex
+*.lst
+*.bin
 *.elf
 
 # Linker output
