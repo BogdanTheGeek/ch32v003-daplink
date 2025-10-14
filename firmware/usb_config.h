@@ -45,31 +45,31 @@ static const uint8_t device_descriptor[] = {
 };
 
 static const uint8_t special_hid_desc[] = {
-   HID_USAGE_PAGE ( 0xff ), // Usage Page = 0xFF (Vendor Defined Page 1)
-	HID_USAGE      ( 0x01 ),   // Usage (Vendor Usage 1)
-	HID_COLLECTION ( HID_COLLECTION_APPLICATION ),
-		HID_USAGE_MIN    ( 0x01 ),
-		HID_USAGE_MAX    ( 0x40 ),  // 64 input usages total (0x01 to 0x40)
-		HID_LOGICAL_MIN  ( 0x00 ),  // Logical Minimum (data bytes may have minimum value = 0x00)
-		HID_LOGICAL_MAX  ( 0xff ),  // Logical Maximum (data bytes may have maximum value = 0x00FF = unsigned 255)
-		HID_REPORT_SIZE  ( 8 ),     // Report Size: 8-bit field size
-		HID_REPORT_COUNT ( 0x40 ),  // Report Count: Make sixty-four 8-bit fields
-		HID_INPUT        ( HID_DATA | HID_ARRAY | HID_ABSOLUTE ),
-		HID_USAGE_MIN    ( 0x01 ),
-		HID_USAGE_MAX    ( 0x40 ),  // 64 output usages total (0x01 to 0x40)
-		HID_OUTPUT       ( HID_DATA | HID_ARRAY | HID_ABSOLUTE ),
-	HID_COLLECTION_END,
+    // Based on https://github.com/ataradov/free-dap/blob/49a30aa350828b6ce16c09620c8d65985a7fdda8/platform/samd11/usb_descriptors.c#L51
+    HID_USAGE_PAGE(0x01), // Usage Page = 0xFF (Vendor Defined Page 1)
+    HID_USAGE(0x00),      // Usage (Undefined)
+    HID_COLLECTION(HID_COLLECTION_APPLICATION),
+       HID_LOGICAL_MIN(0x00),             // Logical Minimum (data bytes may have minimum value = 0x00)
+       HID_LOGICAL_MAX(0xff),             // Logical Maximum (data bytes may have maximum value = 0x00FF = unsigned 255)
+       HID_REPORT_SIZE(8),                // Report Size: 8-bit field size
+       HID_REPORT_COUNT(DAP_PACKET_SIZE), // Report Count: Make sixty-four 8-bit fields
+       HID_USAGE(0x00),                   // Usage (Undefined)
+       HID_INPUT(0x82),
+       HID_REPORT_SIZE(8),                // Report Size: 8-bit field size
+       HID_REPORT_COUNT(DAP_PACKET_SIZE), // Report Count: Make sixty-four 8-bit fields
+       HID_USAGE(0x00),                   // Usage (Undefined)
+       HID_OUTPUT(0x82),
+    HID_COLLECTION_END,
 };
 
 static const uint8_t config_descriptor[] = {
     0x09,       // bLength
     0x02,       // bDescriptorType
- 
-   0x29, 0x00, // wTotalLength
+    0x29, 0x00, // wTotalLength
     1,          // bNumInterfaces
     0x01,       // gurationValue
     0x00,       // iConfiguration
-    0x00,       // bmAttributes, D6: self power  D5: remote wake-up
+    0x80,       // bmAttributes
     0x64,       // MaxPower, 100 * 2mA = 200mA
 
     // I/F descriptor: HID
@@ -84,13 +84,13 @@ static const uint8_t config_descriptor[] = {
     0x00, // iInterface
 
     // HID Descriptor
-    0x09,       // bLength
-    0x21,       // bDescriptorType
-    0x10, 0x01, // HID Class Spec
-    0x00,       // H/W target country.
-    0x01,       // Number of HID class descriptors to follow.
-    0x22,       // Descriptor type.
-    sizeof(special_hid_desc), 0x00,   // Total length of report descriptor.
+    0x09,                           // bLength
+    0x21,                           // bDescriptorType
+    0x10, 0x01,                     // HID Class Spec
+    0x00,                           // H/W target country.
+    0x01,                           // Number of HID class descriptors to follow.
+    0x22,                           // Descriptor type.
+    sizeof(special_hid_desc), 0x00, // Total length of report descriptor.
 
     // EP Descriptor: interrupt out.
     0x07,       // bLength
