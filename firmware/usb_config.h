@@ -44,6 +44,7 @@ static const uint8_t device_descriptor[] = {
     1, // Max number of configurations
 };
 
+// clang-format off
 static const uint8_t special_hid_desc[] = {
     // Based on https://github.com/ataradov/free-dap/blob/49a30aa350828b6ce16c09620c8d65985a7fdda8/platform/samd11/usb_descriptors.c#L51
     HID_USAGE_PAGE(0x01), // Usage Page = 0xFF (Vendor Defined Page 1)
@@ -61,6 +62,7 @@ static const uint8_t special_hid_desc[] = {
        HID_OUTPUT(0x82),
     HID_COLLECTION_END,
 };
+// clang-format on
 
 static const uint8_t config_descriptor[] = {
     0x09,       // bLength

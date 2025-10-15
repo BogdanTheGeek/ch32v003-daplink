@@ -97,7 +97,7 @@ int main(void)
     const bool debuggerAttached = !WaitForDebuggerToAttach(1000);
     if (debuggerAttached)
     {
-        LOG_Init(eLOG_LEVEL_INFO, (uint32_t *)&SysTick_ms);
+        LOG_Init(eLOG_LEVEL_DEBUG, (uint32_t *)&SysTick_ms);
     }
     else
     {
@@ -258,11 +258,7 @@ void usb_handle_user_in_request(struct usb_endpoint *e, uint8_t *scratchpad, int
     static uint32_t send_index = 0; // current send index
 
     // Make sure we only deal with control messages. Like get/set feature reports.
-    if (endp > 1)
-    {
-        usb_send_empty(tok);
-    }
-    else if (endp == 1)
+    if (endp == 1)
     {
         if ((s_resp.tail != s_resp.head) || s_resp.full)
         {
@@ -290,7 +286,7 @@ void usb_handle_user_in_request(struct usb_endpoint *e, uint8_t *scratchpad, int
     }
     else
     {
-        // don't send empty for endpoint 0
+        usb_send_empty(tok);
     }
 }
 
